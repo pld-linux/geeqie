@@ -1,5 +1,3 @@
-# TODO:
-# - bogus locale zh_CN.GB2312
 #
 %define _alpha alpha2
 #
@@ -63,6 +61,8 @@ rm -rf $RPM_BUILD_ROOT
 install AUTHORS README TODO ChangeLog $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}%{_alpha}
 gzip -9nf $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}%{_alpha}/{AUTHORS,TODO,ChangeLog}
 rm -f $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}%{_alpha}/COPYING
+
+mv $RPM_BUILD_ROOT%{_datadir}/locale/zh_CN{.GB2312,}
 
 %find_lang %{name}
 
