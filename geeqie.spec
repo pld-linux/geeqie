@@ -1,3 +1,5 @@
+# TODO:
+# - bogus locale zh_CN.GB2312
 #
 %define _alpha alpha2
 #
