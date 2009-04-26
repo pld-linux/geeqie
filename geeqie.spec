@@ -1,7 +1,8 @@
 #
-%define _alpha alpha2
+%define _alpha alpha3
 #
 Summary:	Graphics file browser utility
+Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
 Version:	1.0
@@ -9,7 +10,7 @@ Release:	0.%{_alpha}.1
 License:	GPL v2
 Group:		X11/Applications/Graphics
 Source0:	http://dl.sourceforge.net/geeqie/%{name}-%{version}%{_alpha}.tar.gz
-# Source0-md5:	3a9acd46defdebe7444cc9f46fdfa956
+# Source0-md5:	0f0c3991ee4ef9232e21ed49fa879b83
 URL:		http://geeqie.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -22,7 +23,7 @@ BuildRequires:	rpmbuild(macros) >= 1.197
 Requires:	libjpeg-progs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		specflags_ia32		-fomit-frame-pointer 
+%define		specflags_ia32		-fomit-frame-pointer
 
 %description
 Geeqie is a browser for graphics files. Offering single click viewing
@@ -34,6 +35,11 @@ Geeqie est un explorateur de fichiers graphiques. Il permet d'un
 simple clic l'affichage de vos fichiers graphiques. Les capacités
 suivantes sont incluses: vue d'imagettes, zoom, filtres et support
 d'éditeurs externes.
+
+%description -l hu.UTF-8
+Geeqie egy böngésző, amellyel a grafikus fájlokat tudod kezelni.
+Egyszeri kattintásra megnézheted a képfájljaidat. Kicsinyített nézet,
+zoom és szűrő eszközök is található, és külső szerkesztő támogatása.
 
 %description -l pl.UTF-8
 Geeqie jest przeglądarką plików graficznych. Możesz przeglądać swoje
