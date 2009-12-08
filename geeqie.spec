@@ -1,23 +1,25 @@
 #
-%define _alpha alpha3
+%define _state beta2
 #
 Summary:	Graphics file browser utility
 Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
 Version:	1.0
-Release:	0.%{_alpha}.1
+Release:	0.%{_state}.1
 License:	GPL v2
 Group:		X11/Applications/Graphics
-Source0:	http://dl.sourceforge.net/geeqie/%{name}-%{version}%{_alpha}.tar.gz
-# Source0-md5:	0f0c3991ee4ef9232e21ed49fa879b83
+Source0:	http://downloads.sourceforge.net/geeqie/%{name}-%{version}%{_state}.tar.gz
+# Source0-md5:	4e4ddc96a83e1d6bc43d478796e0b3c4
 URL:		http://geeqie.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	exiv2-devel
 BuildRequires:	gettext-devel
 BuildRequires:	gtk+2-devel >= 2:2.4.0
+BuildRequires:	intltool >= 0.40.0
 BuildRequires:	libpng-devel
+BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.197
 Requires:	libjpeg-progs
@@ -47,10 +49,11 @@ pliki graficzne jednym kliknięciem myszy. Zawiera widok miniatur, zoom
 i opcje filtrowania, jak również wsparcie dla zewnętrznego edytora.
 
 %prep
-%setup -q -n %{name}-%{version}%{_alpha}
+%setup -q -n %{name}-%{version}%{_state}
 
 %build
-%{__glib_gettextize}
+%{__intltoolize}
+%{__libtoolize}
 %{__aclocal}
 %{__autoconf}
 %{__autoheader}
@@ -64,9 +67,9 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install AUTHORS README TODO ChangeLog $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}%{_alpha}
-gzip -9nf $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}%{_alpha}/{AUTHORS,TODO,ChangeLog}
-rm -f $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}%{_alpha}/COPYING
+install AUTHORS README TODO ChangeLog $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}%{_state}
+gzip -9nf $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}%{_state}/{AUTHORS,TODO,ChangeLog}
+rm -f $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}%{_state}/COPYING
 
 mv $RPM_BUILD_ROOT%{_datadir}/locale/zh_CN{.GB2312,}
 
@@ -84,8 +87,8 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 #doc AUTHORS README TODO ChangeLog
-%docdir %{_docdir}/%{name}-%{version}%{_alpha}
-%{_docdir}/%{name}-%{version}%{_alpha}/
+%docdir %{_docdir}/%{name}-%{version}%{_state}
+%{_docdir}/%{name}-%{version}%{_state}/
 %attr(755,root,root) %{_bindir}/%{name}
 %{_desktopdir}/%{name}.desktop
 %{_pixmapsdir}/%{name}.png
