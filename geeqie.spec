@@ -1,16 +1,13 @@
-#
-%define _state beta2
-#
 Summary:	Graphics file browser utility
 Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
 Version:	1.0
-Release:	0.%{_state}.1
+Release:	2
 License:	GPL v2
 Group:		X11/Applications/Graphics
-Source0:	http://downloads.sourceforge.net/geeqie/%{name}-%{version}%{_state}.tar.gz
-# Source0-md5:	4e4ddc96a83e1d6bc43d478796e0b3c4
+Source0:	http://downloads.sourceforge.net/geeqie/%{name}-%{version}.tar.gz
+# Source0-md5:	1d67ef990390224c5052697d93bb49c0
 URL:		http://geeqie.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -49,7 +46,7 @@ pliki graficzne jednym kliknięciem myszy. Zawiera widok miniatur, zoom
 i opcje filtrowania, jak również wsparcie dla zewnętrznego edytora.
 
 %prep
-%setup -q -n %{name}-%{version}%{_state}
+%setup -q
 
 %build
 %{__intltoolize}
@@ -67,11 +64,14 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install AUTHORS README TODO ChangeLog $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}%{_state}
-gzip -9nf $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}%{_state}/{AUTHORS,TODO,ChangeLog}
-rm -f $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}%{_state}/COPYING
+install AUTHORS README TODO ChangeLog $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
+# gzip -9nf $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}%{_state}/{AUTHORS,TODO,ChangeLog}
+rm -f $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/COPYING
 
 mv $RPM_BUILD_ROOT%{_datadir}/locale/zh_CN{.GB2312,}
+
+mv $RPM_BUILD_ROOT%{_datadir}/%{name}/applications/*.desktop $RPM_BUILD_ROOT%{_desktopdir}
+rm -rf $RPM_BUILD_ROOT%{_datadir}/%{name}/{applications,template.desktop}
 
 %find_lang %{name}
 
@@ -87,9 +87,11 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 #doc AUTHORS README TODO ChangeLog
-%docdir %{_docdir}/%{name}-%{version}%{_state}
-%{_docdir}/%{name}-%{version}%{_state}/
+%docdir %{_docdir}/%{name}-%{version}
+%{_docdir}/%{name}-%{version}/
 %attr(755,root,root) %{_bindir}/%{name}
-%{_desktopdir}/%{name}.desktop
+%dir %{_libdir}/%{name}
+%{_libdir}/%{name}/*
+%{_desktopdir}/*.desktop
 %{_pixmapsdir}/%{name}.png
 %{_mandir}/man1/*
