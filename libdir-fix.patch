@@ -1,0 +1,11 @@
+--- geeqie-1.0/configure.in~	2010-02-17 22:21:23.000000000 +0100
++++ geeqie-1.0/configure.in	2010-09-09 10:05:27.667671281 +0200
+@@ -227,7 +227,7 @@
+ AC_DEFINE_UNQUOTED([GQ_APP_DIR], "$appdir", [Location of application data])
+ AC_SUBST(appdir)
+ 
+-eval "eval gq_bindir=${prefix}/lib/${PACKAGE}"
++eval "eval gq_bindir=${libdir}/${PACKAGE}"
+ AC_DEFINE_UNQUOTED([GQ_BIN_DIR], "$gq_bindir", [Location of helper scripts and executables])
+ AC_SUBST(gq_bindir)
+ 
