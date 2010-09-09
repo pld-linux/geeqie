@@ -8,6 +8,7 @@ License:	GPL v2
 Group:		X11/Applications/Graphics
 Source0:	http://downloads.sourceforge.net/geeqie/%{name}-%{version}.tar.gz
 # Source0-md5:	1d67ef990390224c5052697d93bb49c0
+Patch0:		libdir-fix.patch
 URL:		http://geeqie.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -47,6 +48,7 @@ i opcje filtrowania, jak również wsparcie dla zewnętrznego edytora.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %{__intltoolize}
