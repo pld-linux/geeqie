@@ -2,12 +2,12 @@ Summary:	Graphics file browser utility
 Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
-Version:	1.0
-Release:	4
+Version:	1.1
+Release:	1
 License:	GPL v2
 Group:		X11/Applications/Graphics
 Source0:	http://downloads.sourceforge.net/geeqie/%{name}-%{version}.tar.gz
-# Source0-md5:	1d67ef990390224c5052697d93bb49c0
+# Source0-md5:	e63351988625c84b0fd80bc4eefd923b
 Patch0:		libdir-fix.patch
 URL:		http://geeqie.sourceforge.net/
 BuildRequires:	autoconf
@@ -62,18 +62,17 @@ i opcje filtrowania, jak również wsparcie dla zewnętrznego edytora.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT/html
 
 %{__make} install \
+	helpdir=/html \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install AUTHORS README TODO ChangeLog $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
-# gzip -9nf $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}%{_state}/{AUTHORS,TODO,ChangeLog}
-rm -f $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}/COPYING
+%{__mv} $RPM_BUILD_ROOT%{_datadir}/%{name}/applications/*.desktop $RPM_BUILD_ROOT%{_desktopdir}
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/%{name}/{applications,template.desktop}
+%{__rm} -r $RPM_BUILD_ROOT/html
 
-mv $RPM_BUILD_ROOT%{_datadir}/locale/zh_CN{.GB2312,}
-
-mv $RPM_BUILD_ROOT%{_datadir}/%{name}/applications/*.desktop $RPM_BUILD_ROOT%{_desktopdir}
-rm -rf $RPM_BUILD_ROOT%{_datadir}/%{name}/{applications,template.desktop}
+(cd doc/html ; ln -s GuideIndex.html index.html)
 
 %find_lang %{name}
 
@@ -88,9 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-#doc AUTHORS README TODO ChangeLog
-%docdir %{_docdir}/%{name}-%{version}
-%{_docdir}/%{name}-%{version}/
+%doc AUTHORS README TODO ChangeLog doc/html
 %attr(755,root,root) %{_bindir}/%{name}
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/*
