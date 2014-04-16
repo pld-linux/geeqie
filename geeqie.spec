@@ -74,6 +74,8 @@ install -d $RPM_BUILD_ROOT/html
 
 (cd doc/html ; ln -s GuideIndex.html index.html)
 
+%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
+
 %find_lang %{name}
 
 %post
