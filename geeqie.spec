@@ -9,6 +9,7 @@ Group:		X11/Applications/Graphics
 Source0:	http://www.geeqie.org/%{name}-%{version}.tar.xz
 # Source0-md5:	fab78be9fca02b68cd670e5359457b88
 Patch0:		libdir-fix.patch
+Patch1:		%{name}-raws.patch
 URL:		http://www.geeqie.org
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -49,6 +50,7 @@ i opcje filtrowania, jak również wsparcie dla zewnętrznego edytora.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__intltoolize}
