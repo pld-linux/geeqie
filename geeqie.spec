@@ -3,7 +3,7 @@ Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
 Version:	1.2.3
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		X11/Applications/Graphics
 Source0:	http://www.geeqie.org/%{name}-%{version}.tar.xz
@@ -70,7 +70,6 @@ i opcje filtrowania, jak również wsparcie dla zewnętrznego edytora.
 rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	GNOME_DOC_TOOL=/disable-install-hook \
-	desktopdir=%{_desktopdir} \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %{__rm} -r $RPM_BUILD_ROOT%{_datadir}/%{name}/{applications,template.desktop}
