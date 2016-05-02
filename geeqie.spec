@@ -10,7 +10,7 @@ Source0:	http://www.geeqie.org/%{name}-%{version}.tar.xz
 # Source0-md5:	fab78be9fca02b68cd670e5359457b88
 Patch0:		libdir-fix.patch
 Patch1:		%{name}-raws.patch
-URL:		http://www.geeqie.org
+URL:		http://www.geeqie.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	exiv2-devel
@@ -21,8 +21,12 @@ BuildRequires:	libpng-devel
 BuildRequires:	libtool
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.197
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
+Requires:	desktop-file-utils
 Requires:	libjpeg-progs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
 
 %define		specflags_ia32		-fomit-frame-pointer
 
@@ -64,27 +68,25 @@ i opcje filtrowania, jak również wsparcie dla zewnętrznego edytora.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/html
-
 %{__make} install \
 	helpdir=/html \
+	desktopdir=%{_desktopdir} \
 	DESTDIR=$RPM_BUILD_ROOT
 
-%{__mv} $RPM_BUILD_ROOT%{_datadir}/%{name}/applications/*.desktop $RPM_BUILD_ROOT%{_desktopdir}
 %{__rm} -r $RPM_BUILD_ROOT%{_datadir}/%{name}/{applications,template.desktop}
 %{__rm} -r $RPM_BUILD_ROOT/html
 
-(cd doc/html ; ln -s GuideIndex.html index.html)
+ln -sf GuideIndex.html doc/html/index.html
 
 %{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
 
 %find_lang %{name}
 
 %post
-[ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1 ||:
+%update_desktop_database
 
 %postun
-[ ! -x /usr/bin/update-desktop-database ] || /usr/bin/update-desktop-database >/dev/null 2>&1
+%update_desktop_database
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -93,8 +95,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS README TODO ChangeLog doc/html
 %attr(755,root,root) %{_bindir}/%{name}
-%dir %{_libdir}/%{name}
-%{_libdir}/%{name}/*
-%{_desktopdir}/*.desktop
+%{_mandir}/man1/%{name}.1*
+%{_desktopdir}/%{name}.desktop
 %{_pixmapsdir}/%{name}.png
-%{_mandir}/man1/*
+%dir %{_libdir}/%{name}
+%attr(755,root,root) %{_libdir}/%{name}/geeqie-import
+%attr(755,root,root) %{_libdir}/%{name}/geeqie-rotate
+%attr(755,root,root) %{_libdir}/%{name}/geeqie-symlink
+%attr(755,root,root) %{_libdir}/%{name}/geeqie-ufraw
