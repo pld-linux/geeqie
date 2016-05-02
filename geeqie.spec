@@ -69,15 +69,11 @@ i opcje filtrowania, jak również wsparcie dla zewnętrznego edytora.
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__make} install \
-	helpdir=/html \
+	GNOME_DOC_TOOL=/disable-install-hook \
 	desktopdir=%{_desktopdir} \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %{__rm} -r $RPM_BUILD_ROOT%{_datadir}/%{name}/{applications,template.desktop}
-%{__rm} -r $RPM_BUILD_ROOT/html
-
-ln -sf GuideIndex.html doc/html/index.html
-
 %{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
 
 %find_lang %{name}
