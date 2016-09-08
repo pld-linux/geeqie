@@ -1,32 +1,55 @@
+#
+# Conditional build:
+%bcond_with	gtk2		# use GTK+ 2.x instead of 3.x
+%bcond_without	champlain	# maps support via libchamplain [gtk+3 only]
+%bcond_without	clutter		# GPU accelleration via clutter [gtk+3 only]
+#
+%if %{with gtk2}
+%undefine	with_champlain
+%undefine	with_clutter
+%endif
 Summary:	Graphics file browser utility
 Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
-Version:	1.2.3
-Release:	2
-License:	GPL v2
+Version:	1.3
+Release:	1
+License:	GPL v2+
 Group:		X11/Applications/Graphics
 Source0:	http://www.geeqie.org/%{name}-%{version}.tar.xz
-# Source0-md5:	fab78be9fca02b68cd670e5359457b88
+# Source0-md5:	0339ad62946cae7009ec76ec21572065
 Patch0:		libdir-fix.patch
-Patch1:		%{name}-raws.patch
 URL:		http://www.geeqie.org/
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake
-BuildRequires:	exiv2-devel
+BuildRequires:	clutter-devel >= 1.0
+BuildRequires:	clutter-gtk-devel >= 1.0
+BuildRequires:	exiv2-devel >= 0.11
+BuildRequires:	gdk-pixbuf2-devel >= 2
 BuildRequires:	gettext-tools
-BuildRequires:	gtk+2-devel >= 2:2.4.0
+BuildRequires:	glib2-devel >= 1:2.24.0
+BuildRequires:	gnome-doc-utils
+%{?with_gtk2:BuildRequires:	gtk+2-devel >= 2:2.20.0}
+%{!?with_gtk2:BuildRequires:	gtk+3-devel >= 3.0.0}
 BuildRequires:	intltool >= 0.40.0
+BuildRequires:	lcms2-devel >= 2.0
+BuildRequires:	libchamplain-devel >= 0.12
+BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
-BuildRequires:	libtool
+BuildRequires:	libstdc++-devel
+BuildRequires:	libtiff-devel
+BuildRequires:	lirc-devel
+BuildRequires:	lua51-devel >= 5.1.5-2
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.197
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires:	desktop-file-utils
+Requires:	glib2 >= 1:2.24.0
+%{?with_gtk2:Requires:	gtk+2 >= 2:2.20.0}
+%{!?with_gtk2:Requires:	gtk+3 >= 3.0.0}
 Requires:	libjpeg-progs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
 
 %define		specflags_ia32		-fomit-frame-pointer
 
@@ -54,20 +77,24 @@ i opcje filtrowania, jak również wsparcie dla zewnętrznego edytora.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
+install -d auxdir
 %{__intltoolize}
-%{__libtoolize}
 %{__aclocal}
 %{__autoconf}
 %{__autoheader}
 %{__automake}
-%configure
+%configure \
+	%{!?with_clutter:--disable-gpu-accel} \
+	--enable-gtk3%{?with_gtk2:=no} \
+	%{?with_champlain:--enable-map}
+
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} install \
 	GNOME_DOC_TOOL=/disable-install-hook \
 	DESTDIR=$RPM_BUILD_ROOT
