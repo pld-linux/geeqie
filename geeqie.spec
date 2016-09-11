@@ -22,8 +22,8 @@ Patch0:		libdir-fix.patch
 URL:		http://www.geeqie.org/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake
-BuildRequires:	clutter-devel >= 1.0
-BuildRequires:	clutter-gtk-devel >= 1.0
+%{?with_clutter:BuildRequires:	clutter-devel >= 1.0}
+%{?with_clutter:BuildRequires:	clutter-gtk-devel >= 1.0}
 BuildRequires:	exiv2-devel >= 0.11
 BuildRequires:	gdk-pixbuf2-devel >= 2
 BuildRequires:	gettext-tools
@@ -33,7 +33,7 @@ BuildRequires:	gnome-doc-utils
 %{!?with_gtk2:BuildRequires:	gtk+3-devel >= 3.0.0}
 BuildRequires:	intltool >= 0.40.0
 BuildRequires:	lcms2-devel >= 2.0
-BuildRequires:	libchamplain-devel >= 0.12
+%{?with_champlain:BuildRequires:	libchamplain-devel >= 0.12}
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libstdc++-devel
@@ -45,9 +45,11 @@ BuildRequires:	rpmbuild(macros) >= 1.197
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires:	desktop-file-utils
+Requires:	exiv2-libs >= 0.11
 Requires:	glib2 >= 1:2.24.0
 %{?with_gtk2:Requires:	gtk+2 >= 2:2.20.0}
 %{!?with_gtk2:Requires:	gtk+3 >= 3.0.0}
+%{?with_champlain:Requires:	libchamplain >= 0.12}
 Requires:	libjpeg-progs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
