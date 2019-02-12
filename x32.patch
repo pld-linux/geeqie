@@ -1,0 +1,14 @@
+--- geeqie-1.4/src/thumb_standard.c~	2017-12-31 13:31:21.000000000 +0100
++++ geeqie-1.4/src/thumb_standard.c	2019-02-13 00:06:19.836517723 +0100
+@@ -348,7 +348,11 @@
+ 		mark_uri = (tl->cache_local) ? tl->local_uri :tl->thumb_uri;
+ 
+ 		mark_app = g_strdup_printf("%s %s", GQ_APPNAME, VERSION);
++#ifdef __ILP32__
++		mark_mtime = g_strdup_printf("%llu", tl->source_mtime);
++#else
+ 		mark_mtime = g_strdup_printf("%lu", tl->source_mtime);
++#endif
+ 
+ 		pathl = path_from_utf8(tmp_path);
+ 		success = gdk_pixbuf_save(pixbuf, pathl, "png", NULL,

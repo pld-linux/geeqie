@@ -13,7 +13,7 @@ Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
 Version:	1.4
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Graphics
 Source0:	http://www.geeqie.org/%{name}-%{version}.tar.xz
@@ -21,6 +21,7 @@ Source0:	http://www.geeqie.org/%{name}-%{version}.tar.xz
 Patch0:		libdir-fix.patch
 Patch1:		exiv2-0.27.patch
 Patch2:		no-changelog.patch
+Patch3:		x32.patch
 URL:		http://www.geeqie.org/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake
@@ -83,6 +84,7 @@ i opcje filtrowania, jak również wsparcie dla zewnętrznego edytora.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 install -d auxdir
