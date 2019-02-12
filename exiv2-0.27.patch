@@ -1,0 +1,90 @@
+X-Git-Url: http://geeqie.org/cgi-bin/gitweb.cgi?p=geeqie.git;a=blobdiff_plain;f=src%2Fexiv2.cc;h=2992740c497825f790d6be617f04f4729df7f8cd;hp=b3c806572b87998d6d047a12ac69520ca58760ab;hb=d309cc7c217eeb187ce59b7d5c9145112048182b;hpb=eedf0ad8550ad5ed95a48d9770669b80bde66b5d
+
+diff --git a/src/exiv2.cc b/src/exiv2.cc
+index b3c80657..2992740c 100644
+--- a/src/exiv2.cc
++++ b/src/exiv2.cc
+@@ -22,17 +22,25 @@
+ 
+ #ifdef HAVE_EXIV2
+ 
+-#include <exiv2/image.hpp>
+-#include <exiv2/exif.hpp>
++// Don't include the <exiv2/version.hpp> file directly
++// Early Exiv2 versions didn't have version.hpp and the macros.
++#include <exiv2/exiv2.hpp>
+ #include <iostream>
+ #include <string>
+ 
+ // EXIV2_TEST_VERSION is defined in Exiv2 0.15 and newer.
++#ifdef EXIV2_VERSION
+ #ifndef EXIV2_TEST_VERSION
+-# define EXIV2_TEST_VERSION(major,minor,patch) \
++#define EXIV2_TEST_VERSION(major,minor,patch) \
+ 	( EXIV2_VERSION >= EXIV2_MAKE_VERSION(major,minor,patch) )
+ #endif
++#else
++#define EXIV2_TEST_VERSION(major,minor,patch) (false)
++#endif
+ 
++#if EXIV2_TEST_VERSION(0,27,0)
++#define HAVE_EXIV2_ERROR_CODE
++#endif
+ 
+ #include <sys/types.h>
+ #include <sys/stat.h>
+@@ -40,27 +48,8 @@
+ #include <fcntl.h>
+ #include <sys/mman.h>
+ 
+-#if !EXIV2_TEST_VERSION(0,17,90)
+-#include <exiv2/tiffparser.hpp>
+-#include <exiv2/tiffcomposite.hpp>
+-#include <exiv2/tiffvisitor.hpp>
+-#include <exiv2/tiffimage.hpp>
+-#include <exiv2/cr2image.hpp>
+-#include <exiv2/crwimage.hpp>
+-#if EXIV2_TEST_VERSION(0,16,0)
+-#include <exiv2/orfimage.hpp>
+-#endif
+-#if EXIV2_TEST_VERSION(0,13,0)
+-#include <exiv2/rafimage.hpp>
+-#endif
+-#include <exiv2/futils.hpp>
+-#else
+-#include <exiv2/preview.hpp>
+-#endif
+-
+-#if EXIV2_TEST_VERSION(0,17,0)
+-#include <exiv2/convert.hpp>
+-#include <exiv2/xmpsidecar.hpp>
++#if EXIV2_TEST_VERSION(0,27,0)
++#define EXV_PACKAGE "exiv2"
+ #endif
+ 
+ extern "C" {
+@@ -374,7 +363,11 @@ public:
+ #endif
+ 			Exiv2::Image *image = imageData_->image();
+ 
++#ifdef HAVE_EXIV2_ERROR_CODE
++			if (!image) throw Exiv2::Error(Exiv2::ErrorCode::kerInputDataReadFailed);
++#else
+ 			if (!image) Exiv2::Error(21);
++#endif
+ 			image->setExifData(exifData_);
+ 			image->setIptcData(iptcData_);
+ #if EXIV2_TEST_VERSION(0,16,0)
+@@ -394,8 +387,12 @@ public:
+ 			sidecar->setXmpData(xmpData_);
+ 			sidecar->writeMetadata();
+ #else
++#ifdef HAVE_EXIV2_ERROR_CODE
++			throw Exiv2::Error(Exiv2::ErrorCode::kerNotAnImage, "xmp");
++#else
+ 			throw Exiv2::Error(3, "xmp");
+ #endif
++#endif
+ 			}
+ 	}
+ 

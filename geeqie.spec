@@ -12,13 +12,15 @@ Summary:	Graphics file browser utility
 Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
-Version:	1.3
-Release:	2
+Version:	1.4
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Graphics
 Source0:	http://www.geeqie.org/%{name}-%{version}.tar.xz
-# Source0-md5:	0339ad62946cae7009ec76ec21572065
+# Source0-md5:	52a4d387093e02182201b1cc02d99cc9
 Patch0:		libdir-fix.patch
+Patch1:		exiv2-0.27.patch
+Patch2:		no-changelog.patch
 URL:		http://www.geeqie.org/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake
@@ -79,6 +81,8 @@ i opcje filtrowania, jak również wsparcie dla zewnętrznego edytora.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 %build
 install -d auxdir
@@ -117,7 +121,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS README TODO ChangeLog doc/html
+%doc AUTHORS README.md TODO doc/html
 %attr(755,root,root) %{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1*
 %{_desktopdir}/%{name}.desktop
@@ -127,3 +131,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-rotate
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-symlink
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-ufraw
+%{_libdir}/%{name}/geocode-parameters.awk
