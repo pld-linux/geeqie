@@ -1,6 +1,6 @@
---- geeqie-1.0/configure.in~	2010-02-17 22:21:23.000000000 +0100
-+++ geeqie-1.0/configure.in	2010-09-09 10:05:27.667671281 +0200
-@@ -227,7 +227,7 @@
+--- geeqie-1.6/configure.ac~	2020-11-20 21:36:33.000000000 +0000
++++ geeqie-1.6/configure.ac	2021-04-08 22:29:09.742491746 +0000
+@@ -253,7 +253,7 @@
  AC_DEFINE_UNQUOTED([GQ_APP_DIR], "$appdir", [Location of application data])
  AC_SUBST(appdir)
  

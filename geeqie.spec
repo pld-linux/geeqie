@@ -12,41 +12,48 @@ Summary:	Graphics file browser utility
 Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
-Version:	1.4
-Release:	2
+Version:	1.6
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Graphics
 Source0:	http://www.geeqie.org/%{name}-%{version}.tar.xz
-# Source0-md5:	52a4d387093e02182201b1cc02d99cc9
+# Source0-md5:	e7401c0e117c423456d5fab468c3149c
 Patch0:		libdir-fix.patch
 Patch1:		exiv2-0.27.patch
 Patch2:		no-changelog.patch
 Patch3:		x32.patch
+Patch4:		0001-Fix-829-segfault-with-clutter-gtk.patch
 URL:		http://www.geeqie.org/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake
 %{?with_clutter:BuildRequires:	clutter-devel >= 1.0}
 %{?with_clutter:BuildRequires:	clutter-gtk-devel >= 1.0}
+BuildRequires:	djvulibre-devel >= 3.5.27
 BuildRequires:	exiv2-devel >= 0.11
+BuildRequires:	ffmpegthumbnailer-devel >= 2.1.0
 BuildRequires:	gdk-pixbuf2-devel >= 2
 BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.24.0
 BuildRequires:	gnome-doc-utils
+BuildRequires:	graphviz
 %{?with_gtk2:BuildRequires:	gtk+2-devel >= 2:2.20.0}
 %{!?with_gtk2:BuildRequires:	gtk+3-devel >= 3.0.0}
+
 BuildRequires:	intltool >= 0.40.0
 BuildRequires:	lcms2-devel >= 2.0
 %{?with_champlain:BuildRequires:	libchamplain-devel >= 0.12}
+BuildRequires:	libheif-devel >= 1.3.2
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	lirc-devel
-BuildRequires:	lua51-devel >= 5.1.5-2
+BuildRequires:	lua53-devel >= 5.3
 BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.197
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
+BuildRequires:	yelp-tools
 Requires:	desktop-file-utils
 Requires:	exiv2-libs >= 0.11
 Requires:	glib2 >= 1:2.24.0
@@ -82,11 +89,11 @@ i opcje filtrowania, jak również wsparcie dla zewnętrznego edytora.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
+%patch4 -p1
 
 %build
+%{__sed} -i '1s,/usr/bin/awk,/bin/awk,' \
+	plugins/geocode-parameters/geocode-parameters.awk
 install -d auxdir
 %{__intltoolize}
 %{__aclocal}
@@ -96,7 +103,7 @@ install -d auxdir
 %configure \
 	%{!?with_clutter:--disable-gpu-accel} \
 	--enable-gtk3%{?with_gtk2:=no} \
-	%{?with_champlain:--enable-map}
+	%{?with_champlain:--enable-map} 
 
 %{__make}
 
@@ -129,8 +136,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/%{name}.desktop
 %{_pixmapsdir}/%{name}.png
 %dir %{_libdir}/%{name}
-%attr(755,root,root) %{_libdir}/%{name}/geeqie-import
+%attr(755,root,root) %{_libdir}/%{name}/geeqie-camera-import
+%attr(755,root,root) %{_libdir}/%{name}/geeqie-camera-import-hook-script
+%attr(755,root,root) %{_libdir}/%{name}/geeqie-export-jpeg
+%attr(755,root,root) %{_libdir}/%{name}/geeqie-image-crop
+%attr(755,root,root) %{_libdir}/%{name}/geeqie-random-image
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-rotate
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-symlink
+%attr(755,root,root) %{_libdir}/%{name}/geeqie-tethered-photography
+%attr(755,root,root) %{_libdir}/%{name}/geeqie-tethered-photography-hook-script
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-ufraw
+%attr(755,root,root) %{_libdir}/%{name}/geocode-parameters.awk
+%attr(755,root,root) %{_libdir}/%{name}/lensID
 %{_libdir}/%{name}/geocode-parameters.awk
+%{_datadir}/metainfo/org.geeqie.Geeqie.appdata.xml
