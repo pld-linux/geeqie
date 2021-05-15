@@ -19,9 +19,6 @@ Group:		X11/Applications/Graphics
 Source0:	http://www.geeqie.org/%{name}-%{version}.tar.xz
 # Source0-md5:	e7401c0e117c423456d5fab468c3149c
 Patch0:		libdir-fix.patch
-Patch1:		exiv2-0.27.patch
-Patch2:		no-changelog.patch
-Patch3:		x32.patch
 Patch4:		0001-Fix-829-segfault-with-clutter-gtk.patch
 URL:		http://www.geeqie.org/
 BuildRequires:	autoconf >= 2.57
