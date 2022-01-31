@@ -12,14 +12,13 @@ Summary:	Graphics file browser utility
 Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
-Version:	1.6
+Version:	1.7.2
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Graphics
-Source0:	http://www.geeqie.org/%{name}-%{version}.tar.xz
-# Source0-md5:	e7401c0e117c423456d5fab468c3149c
+Source0:	https://github.com/BestImageViewer/geeqie/releases/download/v%{version}/%{name}-%{version}.tar.xz
+# Source0-md5:	78bfcf8f0af60117958caa846355de66
 Patch0:		libdir-fix.patch
-Patch4:		0001-Fix-829-segfault-with-clutter-gtk.patch
 URL:		http://www.geeqie.org/
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake
@@ -30,7 +29,7 @@ BuildRequires:	exiv2-devel >= 0.11
 BuildRequires:	ffmpegthumbnailer-devel >= 2.1.0
 BuildRequires:	gdk-pixbuf2-devel >= 2
 BuildRequires:	gettext-tools
-BuildRequires:	glib2-devel >= 1:2.24.0
+BuildRequires:	glib2-devel >= 1:2.52.0
 BuildRequires:	gnome-doc-utils
 BuildRequires:	graphviz
 %{?with_gtk2:BuildRequires:	gtk+2-devel >= 2:2.20.0}
@@ -41,7 +40,9 @@ BuildRequires:	lcms2-devel >= 2.0
 %{?with_champlain:BuildRequires:	libchamplain-devel >= 0.12}
 BuildRequires:	libheif-devel >= 1.3.2
 BuildRequires:	libjpeg-devel
+BuildRequires:	libjxl-devel >= 0.3.7
 BuildRequires:	libpng-devel
+BuildRequires:	libraw-devel >= 0.20
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	lirc-devel
@@ -86,7 +87,6 @@ i opcje filtrowania, jak również wsparcie dla zewnętrznego edytora.
 %prep
 %setup -q
 %patch0 -p1
-%patch4 -p1
 
 %build
 %{__sed} -i '1s,/usr/bin/awk,/bin/awk,' \
@@ -99,8 +99,9 @@ install -d auxdir
 %{__automake}
 %configure \
 	%{!?with_clutter:--disable-gpu-accel} \
-	--enable-gtk3%{?with_gtk2:=no} \
-	%{?with_champlain:--enable-map} 
+	%{?with_gtk2:--disable-gtk3} \
+	%{?with_champlain:--enable-map} \
+	--enable-lirc
 
 %{__make}
 
@@ -108,7 +109,6 @@ install -d auxdir
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
-	GNOME_DOC_TOOL=/disable-install-hook \
 	DESTDIR=$RPM_BUILD_ROOT
 
 %{__rm} -r $RPM_BUILD_ROOT%{_datadir}/%{name}/{applications,template.desktop}
@@ -127,7 +127,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS README.md TODO doc/html
+%doc AUTHORS README.md TODO NEWS doc/html
 %attr(755,root,root) %{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1*
 %{_desktopdir}/%{name}.desktop
@@ -142,7 +142,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-symlink
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-tethered-photography
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-tethered-photography-hook-script
-%attr(755,root,root) %{_libdir}/%{name}/geeqie-ufraw
 %attr(755,root,root) %{_libdir}/%{name}/geocode-parameters.awk
 %attr(755,root,root) %{_libdir}/%{name}/lensID
 %{_libdir}/%{name}/geocode-parameters.awk
