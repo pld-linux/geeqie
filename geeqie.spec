@@ -21,7 +21,7 @@ Source0:	https://github.com/BestImageViewer/geeqie/releases/download/v%{version}
 Patch0:		libdir-fix.patch
 URL:		http://www.geeqie.org/
 BuildRequires:	autoconf >= 2.57
-BuildRequires:	automake
+BuildRequires:	automake >= 1:1.14.1
 %{?with_clutter:BuildRequires:	clutter-devel >= 1.0}
 %{?with_clutter:BuildRequires:	clutter-gtk-devel >= 1.0}
 BuildRequires:	djvulibre-devel >= 3.5.27
@@ -30,13 +30,12 @@ BuildRequires:	ffmpegthumbnailer-devel >= 2.1.0
 BuildRequires:	gdk-pixbuf2-devel >= 2
 BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.52.0
-BuildRequires:	gnome-doc-utils
 BuildRequires:	graphviz
 %{?with_gtk2:BuildRequires:	gtk+2-devel >= 2:2.20.0}
 %{!?with_gtk2:BuildRequires:	gtk+3-devel >= 3.0.0}
-
 BuildRequires:	intltool >= 0.40.0
-BuildRequires:	lcms2-devel >= 2.0
+BuildRequires:	lcms2-devel >= 2.14
+BuildRequires:	libarchive-devel >= 3.4.0
 %{?with_champlain:BuildRequires:	libchamplain-devel >= 0.12}
 BuildRequires:	libheif-devel >= 1.3.2
 BuildRequires:	libjpeg-devel
@@ -45,20 +44,33 @@ BuildRequires:	libpng-devel
 BuildRequires:	libraw-devel >= 0.20
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtiff-devel
+BuildRequires:	libwebp-devel >= 0.6.1
 BuildRequires:	lirc-devel
 BuildRequires:	lua53-devel >= 5.3
+BuildRequires:	openjpeg2-devel >= 2.3.0
 BuildRequires:	pkgconfig
+BuildRequires:	poppler-glib-devel >= 0.62
 BuildRequires:	rpmbuild(macros) >= 1.197
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 BuildRequires:	yelp-tools
 Requires:	desktop-file-utils
+Requires:	djvulibre >= 3.5.27
 Requires:	exiv2-libs >= 0.11
+Requires:	ffmpegthumbnailer >= 2.1.0
 Requires:	glib2 >= 1:2.24.0
 %{?with_gtk2:Requires:	gtk+2 >= 2:2.20.0}
 %{!?with_gtk2:Requires:	gtk+3 >= 3.0.0}
+Requires:	lcms2 >= 2.14
+Requires:	libarchive >= 3.4.0
 %{?with_champlain:Requires:	libchamplain >= 0.12}
+Requires:	libheif >= 1.3.2
 Requires:	libjpeg-progs
+Requires:	libjxl >= 0.3.7
+Requires:	libraw >= 0.20
+Requires:	libwebp >= 0.6.1
+Requires:	openjpeg2 >= 2.3.0
+Requires:	poppler-glib >= 0.62
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		specflags_ia32		-fomit-frame-pointer
@@ -100,8 +112,9 @@ install -d auxdir
 %configure \
 	%{!?with_clutter:--disable-gpu-accel} \
 	%{?with_gtk2:--disable-gtk3} \
+	--enable-lirc \
 	%{?with_champlain:--enable-map} \
-	--enable-lirc
+	--disable-silent-rules
 
 %{__make}
 
@@ -144,5 +157,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-tethered-photography-hook-script
 %attr(755,root,root) %{_libdir}/%{name}/geocode-parameters.awk
 %attr(755,root,root) %{_libdir}/%{name}/lensID
-%{_libdir}/%{name}/geocode-parameters.awk
 %{_datadir}/metainfo/org.geeqie.Geeqie.appdata.xml
