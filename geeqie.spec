@@ -34,7 +34,7 @@ BuildRequires:	graphviz
 %{?with_gtk2:BuildRequires:	gtk+2-devel >= 2:2.20.0}
 %{!?with_gtk2:BuildRequires:	gtk+3-devel >= 3.0.0}
 BuildRequires:	intltool >= 0.40.0
-BuildRequires:	lcms2-devel >= 2.14
+BuildRequires:	lcms2-devel >= 2.0
 BuildRequires:	libarchive-devel >= 3.4.0
 %{?with_champlain:BuildRequires:	libchamplain-devel >= 0.12}
 BuildRequires:	libheif-devel >= 1.3.2
@@ -61,7 +61,7 @@ Requires:	ffmpegthumbnailer >= 2.1.0
 Requires:	glib2 >= 1:2.24.0
 %{?with_gtk2:Requires:	gtk+2 >= 2:2.20.0}
 %{!?with_gtk2:Requires:	gtk+3 >= 3.0.0}
-Requires:	lcms2 >= 2.14
+Requires:	lcms2 >= 2.0
 Requires:	libarchive >= 3.4.0
 %{?with_champlain:Requires:	libchamplain >= 0.12}
 Requires:	libheif >= 1.3.2
