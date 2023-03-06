@@ -7,7 +7,7 @@ Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
 Version:	2.0.1
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Graphics
 Source0:	https://github.com/BestImageViewer/geeqie/releases/download/v%{version}/%{name}-%{version}.tar.xz
