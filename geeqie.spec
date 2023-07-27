@@ -6,21 +6,27 @@ Summary:	Graphics file browser utility
 Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
-Version:	2.0.1
-Release:	3
+Version:	2.1
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Graphics
 Source0:	https://github.com/BestImageViewer/geeqie/releases/download/v%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	d3a97a0fd28a0c6f4c44948299bf994d
+# Source0-md5:	a34e3bcfdc679db713ed304971721db5
+Patch0:		%{name}-lua.patch
+Patch1:		%{name}-exif-fix.patch
 URL:		http://www.geeqie.org/
+%{?with_champlain:BuildRequires:	clutter-devel >= 1.0}
+%{?with_champlain:BuildRequires:	clutter-gtk-devel >= 1.0}
 BuildRequires:	djvulibre-devel >= 3.5.27
+# to enable PDF preview feature
+BuildRequires:	evince
 BuildRequires:	exiv2-devel >= 0.11
 BuildRequires:	ffmpegthumbnailer-devel >= 2.1.0
 BuildRequires:	gdk-pixbuf2-devel >= 2
 BuildRequires:	gettext-tools
 BuildRequires:	glib2-devel >= 1:2.52.0
 BuildRequires:	gspell-devel >= 1.6
-BuildRequires:	gtk+3-devel >= 3.22}
+BuildRequires:	gtk+3-devel >= 3.24
 BuildRequires:	lcms2-devel >= 2.0
 BuildRequires:	libarchive-devel >= 3.4.0
 %{?with_champlain:BuildRequires:	libchamplain-devel >= 0.12}
@@ -29,11 +35,13 @@ BuildRequires:	libjpeg-devel
 BuildRequires:	libjxl-devel >= 0.3.7
 BuildRequires:	libpng-devel
 BuildRequires:	libraw-devel >= 0.20
-BuildRequires:	libtiff-devel
+BuildRequires:	libstdc++-devel >= 6:5
+BuildRequires:	libtiff-devel >= 4
 BuildRequires:	libwebp-devel >= 0.6.1
-BuildRequires:	lua53-devel >= 5.3
-BuildRequires:	meson
-BuildRequires:	ninja
+# 5.3 or 5.4
+BuildRequires:	lua-devel >= 5.3
+BuildRequires:	meson >= 0.56.2
+BuildRequires:	ninja >= 1.5
 BuildRequires:	openjpeg2-devel >= 2.3.0
 BuildRequires:	pkgconfig
 BuildRequires:	poppler-glib-devel >= 0.62
@@ -47,7 +55,7 @@ Requires:	djvulibre >= 3.5.27
 Requires:	exiv2-libs >= 0.11
 Requires:	ffmpegthumbnailer >= 2.1.0
 Requires:	glib2 >= 1:2.24.0
-Requires:	gtk+3 >= 3.22
+Requires:	gtk+3 >= 3.24
 Requires:	lcms2 >= 2.0
 Requires:	libarchive >= 3.4.0
 %{?with_champlain:Requires:	libchamplain >= 0.12}
@@ -85,12 +93,16 @@ i opcje filtrowania, jak również wsparcie dla zewnętrznego edytora.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
 
 %build
 %{__sed} -i '1s,%{_bindir}/awk,/bin/awk,' \
 	plugins/geocode-parameters/geocode-parameters.awk
 
-%meson build -Dgq_bindir=%{_libdir}/%{name} %{!?with_champlain:-Dgps-map=disabled}
+%meson build \
+	-Dgq_bindir=%{_libdir}/%{name} \
+	%{!?with_champlain:-Dgps-map=disabled}
 
 %ninja_build -C build
 
@@ -119,11 +131,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS README.md TODO NEWS build/doc/html
-%attr(755,root,root) %{_bindir}/%{name}
-%{_mandir}/man1/%{name}.1*
-%{_desktopdir}/%{name}.desktop
-%{_pixmapsdir}/%{name}.png
+%doc NEWS README.md TODO build/doc/html
+%attr(755,root,root) %{_bindir}/geeqie
+%{_mandir}/man1/geeqie.1*
+%{_desktopdir}/geeqie.desktop
+%{_iconsdir}/hicolor/scalable/apps/geeqie.svg
+%{_pixmapsdir}/geeqie.png
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-camera-import
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-camera-import-hook-script
