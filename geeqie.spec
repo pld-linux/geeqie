@@ -6,14 +6,12 @@ Summary:	Graphics file browser utility
 Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
-Version:	2.1
+Version:	2.2
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Graphics
 Source0:	https://github.com/BestImageViewer/geeqie/releases/download/v%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	a34e3bcfdc679db713ed304971721db5
-Patch0:		%{name}-lua.patch
-Patch1:		%{name}-exif-fix.patch
+# Source0-md5:	cd8bf090172006797d9bd8b894a0353e
 URL:		http://www.geeqie.org/
 %{?with_champlain:BuildRequires:	clutter-devel >= 1.0}
 %{?with_champlain:BuildRequires:	clutter-gtk-devel >= 1.0}
@@ -43,6 +41,7 @@ BuildRequires:	lua-devel >= 5.3
 BuildRequires:	meson >= 0.56.2
 BuildRequires:	ninja >= 1.5
 BuildRequires:	openjpeg2-devel >= 2.3.0
+BuildRequires:	pandoc
 BuildRequires:	pkgconfig
 BuildRequires:	poppler-glib-devel >= 0.62
 BuildRequires:	rpmbuild(macros) >= 1.197
@@ -93,8 +92,6 @@ i opcje filtrowania, jak również wsparcie dla zewnętrznego edytora.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
 
 %build
 %{__sed} -i '1s,%{_bindir}/awk,/bin/awk,' \
@@ -114,7 +111,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %ninja_install -C build
 
-%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/%{name}/{applications,template.desktop}
+%{__rm} -r $RPM_BUILD_ROOT%{_datadir}/%{name}/{applications,org.geeqie.template.desktop}
 %{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}
 
 
@@ -134,19 +131,22 @@ rm -rf $RPM_BUILD_ROOT
 %doc NEWS README.md TODO build/doc/html
 %attr(755,root,root) %{_bindir}/geeqie
 %{_mandir}/man1/geeqie.1*
-%{_desktopdir}/geeqie.desktop
+%{_desktopdir}/org.geeqie.Geeqie.desktop
 %{_iconsdir}/hicolor/scalable/apps/geeqie.svg
 %{_pixmapsdir}/geeqie.png
 %dir %{_libdir}/%{name}
+%attr(755,root,root) %{_libdir}/%{name}/downsize
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-camera-import
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-camera-import-hook-script
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-export-jpeg
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-image-crop
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-random-image
+%attr(755,root,root) %{_libdir}/%{name}/geeqie-resize-image
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-rotate
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-symlink
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-tethered-photography
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-tethered-photography-hook-script
 %attr(755,root,root) %{_libdir}/%{name}/geocode-parameters.awk
 %attr(755,root,root) %{_libdir}/%{name}/lensID
+%attr(755,root,root) %{_libdir}/%{name}/resize-help.sh
 %{_datadir}/metainfo/org.geeqie.Geeqie.appdata.xml
