@@ -6,12 +6,12 @@ Summary:	Graphics file browser utility
 Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
-Version:	2.3
+Version:	2.4
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Graphics
 Source0:	https://github.com/BestImageViewer/geeqie/releases/download/v%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	8f7a19b24f13e185edf9b74a12a9f2aa
+# Source0-md5:	ea6b1e2e414a75661e8e6d282e7675ff
 URL:		http://www.geeqie.org/
 %{?with_champlain:BuildRequires:	clutter-devel >= 1.0}
 %{?with_champlain:BuildRequires:	clutter-gtk-devel >= 1.0}
