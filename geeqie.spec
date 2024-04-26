@@ -10,6 +10,7 @@ Version:	2.4
 Release:	2
 License:	GPL v2+
 Group:		X11/Applications/Graphics
+#Source0Download: https://github.com/BestImageViewer/geeqie/releases
 Source0:	https://github.com/BestImageViewer/geeqie/releases/download/v%{version}/%{name}-%{version}.tar.xz
 # Source0-md5:	ea6b1e2e414a75661e8e6d282e7675ff
 URL:		http://www.geeqie.org/
@@ -18,7 +19,7 @@ URL:		http://www.geeqie.org/
 BuildRequires:	djvulibre-devel >= 3.5.27
 # to enable PDF preview feature
 BuildRequires:	evince
-BuildRequires:	exiv2-devel >= 0.11
+BuildRequires:	exiv2-devel >= 0.18
 BuildRequires:	ffmpegthumbnailer-devel >= 2.1.0
 BuildRequires:	gdk-pixbuf2-devel >= 2
 BuildRequires:	gettext-tools
@@ -38,7 +39,7 @@ BuildRequires:	libtiff-devel >= 4
 BuildRequires:	libwebp-devel >= 0.6.1
 # 5.3 or 5.4
 BuildRequires:	lua-devel >= 5.3
-BuildRequires:	meson >= 0.56.2
+BuildRequires:	meson >= 1.0.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	openjpeg2-devel >= 2.3.0
 BuildRequires:	pandoc
@@ -51,7 +52,7 @@ BuildRequires:	xz
 BuildRequires:	yelp-tools
 Requires:	desktop-file-utils
 Requires:	djvulibre >= 3.5.27
-Requires:	exiv2-libs >= 0.11
+Requires:	exiv2-libs >= 0.18
 Requires:	ffmpegthumbnailer >= 2.1.0
 Requires:	glib2 >= 1:2.24.0
 Requires:	gtk+3 >= 3.24
