@@ -6,13 +6,13 @@ Summary:	Graphics file browser utility
 Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
-Version:	2.4
-Release:	2
+Version:	2.5
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Graphics
 #Source0Download: https://github.com/BestImageViewer/geeqie/releases
 Source0:	https://github.com/BestImageViewer/geeqie/releases/download/v%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	ea6b1e2e414a75661e8e6d282e7675ff
+# Source0-md5:	baa556da72f0aaadb8583603461b6a83
 URL:		http://www.geeqie.org/
 %{?with_champlain:BuildRequires:	clutter-devel >= 1.0}
 %{?with_champlain:BuildRequires:	clutter-gtk-devel >= 1.0}
@@ -45,7 +45,7 @@ BuildRequires:	openjpeg2-devel >= 2.3.0
 BuildRequires:	pandoc
 BuildRequires:	pkgconfig
 BuildRequires:	poppler-glib-devel >= 0.62
-BuildRequires:	rpmbuild(macros) >= 1.197
+BuildRequires:	rpmbuild(macros) >= 1.726
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xxd
 BuildRequires:	xz
@@ -66,6 +66,7 @@ Requires:	libraw >= 0.20
 Requires:	libwebp >= 0.6.1
 Requires:	openjpeg2 >= 2.3.0
 Requires:	poppler-glib >= 0.62
+Suggests:	bash-completion-geeqie
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		specflags_ia32		-fomit-frame-pointer
@@ -90,6 +91,20 @@ zoom és szűrő eszközök is található, és külső szerkesztő támogatása
 Geeqie jest przeglądarką plików graficznych. Możesz przeglądać swoje
 pliki graficzne jednym kliknięciem myszy. Zawiera widok miniatur, zoom
 i opcje filtrowania, jak również wsparcie dla zewnętrznego edytora.
+
+%package -n bash-completion-geeqie
+Summary:	Bash completion for geeqie
+Summary(pl.UTF-8):	Dopełnianie parametrów geeqie dla powłoki Bash
+Group:		Applications/Shells
+Requires:	%{name} = %{version}-%{release}
+Requires:	bash-completion >= 1:2.0
+BuildArch:	noarch
+
+%description -n bash-completion-geeqie
+Bash completion for geeqie.
+
+%description -n bash-completion-geeqie -l pl.UTF-8
+Dopełnianie parametrów geeqie dla powłoki Bash.
 
 %prep
 %setup -q
@@ -150,4 +165,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/geocode-parameters.awk
 %attr(755,root,root) %{_libdir}/%{name}/lensID
 %attr(755,root,root) %{_libdir}/%{name}/resize-help.sh
+%attr(755,root,root) %{_libdir}/%{name}/geeqie-exif-datetime-to-file
 %{_datadir}/metainfo/org.geeqie.Geeqie.appdata.xml
+
+%files -n bash-completion-geeqie
+%defattr(644,root,root,755)
+%{bash_compdir}/geeqie
