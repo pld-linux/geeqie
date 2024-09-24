@@ -37,6 +37,7 @@ BuildRequires:	libraw-devel >= 0.20
 BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	libtiff-devel >= 4
 BuildRequires:	libwebp-devel >= 0.6.1
+BuildConflicts:	libdwarf-devel
 # 5.3 or 5.4
 BuildRequires:	lua-devel >= 5.3
 BuildRequires:	meson >= 1.0.0
