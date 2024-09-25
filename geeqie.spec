@@ -37,7 +37,6 @@ BuildRequires:	libraw-devel >= 0.20
 BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	libtiff-devel >= 4
 BuildRequires:	libwebp-devel >= 0.6.1
-BuildConflicts:	libdwarf-devel
 # 5.3 or 5.4
 BuildRequires:	lua-devel >= 5.3
 BuildRequires:	meson >= 1.0.0
@@ -55,7 +54,8 @@ Requires:	desktop-file-utils
 Requires:	djvulibre >= 3.5.27
 Requires:	exiv2-libs >= 0.18
 Requires:	ffmpegthumbnailer >= 2.1.0
-Requires:	glib2 >= 1:2.24.0
+Requires:	glib2 >= 1:2.52.0
+Requires:	gspell >= 1.6
 Requires:	gtk+3 >= 3.24
 Requires:	lcms2 >= 2.0
 Requires:	libarchive >= 3.4.0
@@ -115,6 +115,7 @@ Dopełnianie parametrów geeqie dla powłoki Bash.
 	plugins/geocode-parameters/geocode-parameters.awk
 
 %meson build \
+	-Dextended_stacktrace=disabled \
 	-Dgq_bindir=%{_libdir}/%{name} \
 	%{!?with_champlain:-Dgps-map=disabled}
 
