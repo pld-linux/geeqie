@@ -6,13 +6,14 @@ Summary:	Graphics file browser utility
 Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
-Version:	2.5
-Release:	2
+Version:	2.6
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Graphics
 #Source0Download: https://github.com/BestImageViewer/geeqie/releases
 Source0:	https://github.com/BestImageViewer/geeqie/releases/download/v%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	baa556da72f0aaadb8583603461b6a83
+# Source0-md5:	ff646dbe7c6a4fe10bba7cb189bbfe00
+Patch0:		geeqie-desktop.patch
 URL:		http://www.geeqie.org/
 %{?with_champlain:BuildRequires:	clutter-devel >= 1.0}
 %{?with_champlain:BuildRequires:	clutter-gtk-devel >= 1.0}
@@ -109,17 +110,18 @@ Dopełnianie parametrów geeqie dla powłoki Bash.
 
 %prep
 %setup -q
+%patch -P0 -p1
 
 %build
 %{__sed} -i '1s,%{_bindir}/awk,/bin/awk,' \
 	plugins/geocode-parameters/geocode-parameters.awk
 
-%meson build \
+%meson \
 	-Dextended_stacktrace=disabled \
 	-Dgq_bindir=%{_libdir}/%{name} \
 	%{!?with_champlain:-Dgps-map=disabled}
 
-%ninja_build -C build
+%meson_build
 
 cd build/doc/html
 ln -sf GuideIndex.html index.html
@@ -127,7 +129,7 @@ ln -sf GuideIndex.html index.html
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%ninja_install -C build
+%meson_install
 
 %{__rm} -r $RPM_BUILD_ROOT%{_datadir}/%{name}/{applications,org.geeqie.template.desktop}
 %{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}
@@ -146,10 +148,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc NEWS README.md TODO build/doc/html
+%doc NEWS README.md build/doc/html
 %attr(755,root,root) %{_bindir}/geeqie
 %{_mandir}/man1/geeqie.1*
 %{_desktopdir}/org.geeqie.Geeqie.desktop
+# So far this file does nothing
+#%{_desktopdir}/org.geeqie.cache-maintenance.desktop
 %{_iconsdir}/hicolor/scalable/apps/geeqie.svg
 %{_pixmapsdir}/geeqie.png
 %dir %{_libdir}/%{name}
