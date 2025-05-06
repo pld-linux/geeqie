@@ -15,6 +15,9 @@ Source0:	https://github.com/BestImageViewer/geeqie/releases/download/v%{version}
 # Source0-md5:	ff646dbe7c6a4fe10bba7cb189bbfe00
 Patch0:		geeqie-desktop.patch
 URL:		http://www.geeqie.org/
+BuildRequires:	Imath-devel >= 3.0.0
+BuildRequires:	OpenEXR-devel >= 3.0.0
+BuildRequires:	cfitsio-devel
 %{?with_champlain:BuildRequires:	clutter-devel >= 1.0}
 %{?with_champlain:BuildRequires:	clutter-gtk-devel >= 1.0}
 BuildRequires:	djvulibre-devel >= 3.5.27
@@ -117,9 +120,34 @@ Dopełnianie parametrów geeqie dla powłoki Bash.
 	plugins/geocode-parameters/geocode-parameters.awk
 
 %meson \
+	-Darchive=enabled \
+	-Dcms=enabled \
+	-Ddoxygen=enabled \
+	-Ddjvu=enabled \
+	-Devince=enabled \
+	-Dexecinfo=enabled \
+	-Dexiv2=enabled \
+	-Dexr=enabled \
 	-Dextended_stacktrace=disabled \
+	-Dfits=enabled \
+	-Dgit=disabled \
+	-Dgps-map=%{__enabled_disabled champlain} \
 	-Dgq_bindir=%{_libdir}/%{name} \
-	%{!?with_champlain:-Dgps-map=disabled}
+	-Dheif=enabled \
+	-Dhelp_pdf=enabled \
+	-Dj2k=enabled \
+	-Djpeg=enabled \
+	-Djpegxl=enabled \
+	-Dlibraw=enabled \
+	-Dlua=enabled \
+	-Dnpy=enabled \
+	-Dpandoc=enabled \
+	-Dpdf=enabled \
+	-Dspell=enabled \
+	-Dtiff=enabled \
+	-Dvideothumbnailer=enabled \
+	-Dwebp=enabled \
+	-Dyelp-build=enabled
 
 %meson_build
 
