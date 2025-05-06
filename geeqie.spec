@@ -46,7 +46,7 @@ BuildRequires:	openjpeg2-devel >= 2.3.0
 BuildRequires:	pandoc
 BuildRequires:	pkgconfig
 BuildRequires:	poppler-glib-devel >= 0.62
-BuildRequires:	rpmbuild(macros) >= 1.726
+BuildRequires:	rpmbuild(macros) >= 2.042
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xxd
 BuildRequires:	xz
