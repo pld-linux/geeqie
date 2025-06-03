@@ -6,13 +6,13 @@ Summary:	Graphics file browser utility
 Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
-Version:	2.6
+Version:	2.6.1
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Graphics
 #Source0Download: https://github.com/BestImageViewer/geeqie/releases
 Source0:	https://github.com/BestImageViewer/geeqie/releases/download/v%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	ff646dbe7c6a4fe10bba7cb189bbfe00
+# Source0-md5:	7b1e29bef69acfcbc94e7aa6316cd8ed
 Patch0:		geeqie-desktop.patch
 URL:		http://www.geeqie.org/
 BuildRequires:	Imath-devel >= 3.0.0
