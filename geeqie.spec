@@ -7,7 +7,7 @@ Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
 Version:	2.6.1
-Release:	3
+Release:	4
 License:	GPL v2+
 Group:		X11/Applications/Graphics
 #Source0Download: https://github.com/BestImageViewer/geeqie/releases
@@ -22,6 +22,7 @@ BuildRequires:	cfitsio-devel
 %{?with_champlain:BuildRequires:	clutter-gtk-devel >= 1.0}
 BuildRequires:	djvulibre-devel >= 3.5.27
 # to enable PDF preview feature
+BuildRequires:	docbook-dtd44-xml-1.0-2.noarch
 BuildRequires:	evince
 BuildRequires:	exiv2-devel >= 0.18
 BuildRequires:	ffmpegthumbnailer-devel >= 2.1.0
