@@ -22,7 +22,6 @@ BuildRequires:	cfitsio-devel
 %{?with_champlain:BuildRequires:	clutter-gtk-devel >= 1.0}
 BuildRequires:	djvulibre-devel >= 3.5.27
 # to enable PDF preview feature
-BuildRequires:	docbook-dtd44-xml-1.0-2.noarch
 BuildRequires:	evince
 BuildRequires:	exiv2-devel >= 0.18
 BuildRequires:	ffmpegthumbnailer-devel >= 2.1.0
