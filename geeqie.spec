@@ -6,13 +6,13 @@ Summary:	Graphics file browser utility
 Summary(hu.UTF-8):	Képfájl-böngésző eszköz
 Summary(pl.UTF-8):	Narzędzie do przeglądania plików graficznych
 Name:		geeqie
-Version:	2.6.1
-Release:	5
+Version:	2.7
+Release:	1
 License:	GPL v2+
 Group:		X11/Applications/Graphics
 #Source0Download: https://github.com/BestImageViewer/geeqie/releases
 Source0:	https://github.com/BestImageViewer/geeqie/releases/download/v%{version}/%{name}-%{version}.tar.xz
-# Source0-md5:	7b1e29bef69acfcbc94e7aa6316cd8ed
+# Source0-md5:	254d55975f6f2c76608ccda528b12ab6
 Patch0:		geeqie-desktop.patch
 URL:		http://www.geeqie.org/
 BuildRequires:	Imath-devel >= 3.0.0
@@ -117,18 +117,16 @@ Dopełnianie parametrów geeqie dla powłoki Bash.
 
 %build
 %{__sed} -i '1s,%{_bindir}/awk,/bin/awk,' \
-	plugins/geocode-parameters/geocode-parameters.awk
+	data/plugins/geocode-parameters/geocode-parameters.awk
 
 %meson \
 	-Darchive=enabled \
 	-Dcms=enabled \
 	-Ddoxygen=enabled \
 	-Ddjvu=enabled \
-	-Devince=enabled \
 	-Dexecinfo=enabled \
 	-Dexiv2=enabled \
 	-Dexr=enabled \
-	-Dextended_stacktrace=disabled \
 	-Dfits=enabled \
 	-Dgit=disabled \
 	-Dgps-map=%{__enabled_disabled champlain} \
@@ -183,7 +181,7 @@ rm -rf $RPM_BUILD_ROOT
 # So far this file does nothing
 #%{_desktopdir}/org.geeqie.cache-maintenance.desktop
 %{_iconsdir}/hicolor/scalable/apps/geeqie.svg
-%{_pixmapsdir}/geeqie.png
+%{_iconsdir}/hicolor/scalable/apps/org.geeqie.Geeqie.svg
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/downsize
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-camera-import
@@ -200,7 +198,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/%{name}/lensID
 %attr(755,root,root) %{_libdir}/%{name}/resize-help.sh
 %attr(755,root,root) %{_libdir}/%{name}/geeqie-exif-datetime-to-file
-%{_datadir}/metainfo/org.geeqie.Geeqie.appdata.xml
+%{_datadir}/metainfo/org.geeqie.Geeqie.metainfo.xml
 
 %files -n bash-completion-geeqie
 %defattr(644,root,root,755)

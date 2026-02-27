@@ -1,5 +1,5 @@
---- geeqie-2.6/org.geeqie.Geeqie.desktop.in~	2025-05-05 14:22:17.000000000 +0000
-+++ geeqie-2.6/org.geeqie.Geeqie.desktop.in	2025-05-06 10:47:05.716985488 +0000
+--- geeqie-2.6/data/org.geeqie.Geeqie.desktop.in~	2025-05-05 14:22:17.000000000 +0000
++++ geeqie-2.6/data/org.geeqie.Geeqie.desktop.in	2025-05-06 10:47:05.716985488 +0000
 @@ -2,7 +2,7 @@
  Name=Geeqie
  GenericName=Image Viewer
